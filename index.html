@@ -4,97 +4,134 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BTX Docs Saúde — Gerador de Documentos</title>
+
   <style>
     :root{
       --bg:#020617;
-      --card:#0b1224;
-      --card2:#070c18;
+      --bg2:#000;
+      --panel:#0b1224;
+      --panel2:#070c18;
       --border:#1f2937;
       --text:#e5e7eb;
       --muted:#9ca3af;
       --accent:#2563eb;
       --accent2:#1d4ed8;
-      --danger:#f87171;
-      --ok:#22c55e;
+      --shadow: rgba(0,0,0,.65);
     }
+
     *{ box-sizing:border-box; }
+
     body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background: radial-gradient(circle at top, #0b1120 0, #020617 45%, #000 100%);
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
+      background: radial-gradient(circle at top, #0b1120 0, var(--bg) 45%, var(--bg2) 100%);
     }
+
+    /* TOPBAR */
     .topbar{
       position:sticky; top:0; z-index:10;
-      padding:14px 18px;
       display:flex; align-items:center; justify-content:space-between; gap:14px;
+      padding:14px 18px;
       background: linear-gradient(90deg, #020617, #111827, #020617);
       border-bottom:1px solid var(--border);
     }
-    .brand{ display:flex; align-items:center; gap:10px; }
+    .brand{ display:flex; align-items:center; gap:12px; min-width: 0; }
     .logo{
-      width:38px; height:38px; border-radius:999px;
-      border:2px solid var(--accent);
+      width:40px; height:40px; border-radius:999px;
       display:grid; place-items:center;
-      font-weight:800;
-      color:#fff;
-      background: radial-gradient(circle at 30% 30%, rgba(37,99,235,.6), rgba(2,6,23,.2));
-      box-shadow: 0 0 14px rgba(37, 99, 235, 0.55);
+      border:2px solid var(--accent);
+      background: radial-gradient(circle at 30% 30%, rgba(37,99,235,.7), rgba(2,6,23,.15));
+      box-shadow: 0 0 16px rgba(37,99,235,.55);
+      font-weight:900;
+      user-select:none;
     }
-    .brand h1{ margin:0; font-size:14px; font-weight:700; }
-    .brand p{ margin:2px 0 0; font-size:12px; color:var(--muted); }
-    .rightinfo{ font-size:12px; color:var(--muted); text-align:right; }
+    .brandtext{ min-width:0; }
+    .brandtext h1{ margin:0; font-size:14px; font-weight:800; letter-spacing:.2px; }
+    .brandtext p{ margin:2px 0 0; font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .topinfo{
+      font-size:12px; color:var(--muted); text-align:right;
+      max-width: 46%;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+
+    /* CONTAINER */
     main{ padding:18px 14px 26px; display:flex; justify-content:center; }
     .shell{ width:100%; max-width:1200px; }
     .screen{
       border:1px solid var(--border);
-      border-radius:16px;
+      border-radius:18px;
       padding:16px;
       background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
-      box-shadow: 0 18px 60px rgba(0,0,0,.7);
+      box-shadow: 0 18px 60px var(--shadow);
     }
+
     .layout{
       display:grid;
-      grid-template-columns: 260px minmax(0, 1fr);
+      grid-template-columns: 280px minmax(0, 1fr);
       gap:16px;
     }
     @media (max-width: 980px){
       .layout{ grid-template-columns: 1fr; }
+      .topinfo{ display:none; }
     }
+
     .card{
-      background: linear-gradient(180deg, var(--card), var(--card2));
       border:1px solid var(--border);
-      border-radius:14px;
+      border-radius:16px;
       padding:14px;
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
     }
-    .card h2{ margin:0 0 10px; font-size:13px; color:var(--text); }
-    .small{ font-size:12px; color:var(--muted); margin:0 0 12px; }
-    label{ display:block; font-size:12px; color:var(--muted); margin:10px 0 6px; }
+    .card h2{
+      margin:0 0 10px;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+    .small{
+      margin:0 0 12px;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    label{
+      display:block;
+      margin:10px 0 6px;
+      font-size:12px;
+      color:var(--muted);
+    }
     input, textarea, select{
       width:100%;
       background:#020617;
       border:1px solid var(--border);
-      border-radius:10px;
-      padding:10px 10px;
+      border-radius:12px;
+      padding:10px 11px;
       color:var(--text);
       font-size:13px;
       outline:none;
     }
-    textarea{ min-height:90px; resize:vertical; }
+    textarea{ min-height:92px; resize:vertical; }
     input:focus, textarea:focus, select:focus{
       border-color:var(--accent);
-      box-shadow:0 0 0 1px rgba(37,99,235,.55);
+      box-shadow: 0 0 0 1px rgba(37,99,235,.55);
     }
+
+    .row{ display:flex; gap:10px; flex-wrap:wrap; }
+    .row > *{ flex:1; min-width: 140px; }
+
     .btn{
       border-radius:999px;
       padding:10px 14px;
       border:1px solid transparent;
       cursor:pointer;
       font-size:13px;
+      font-weight:700;
       display:inline-flex; align-items:center; justify-content:center;
       gap:8px;
       white-space:nowrap;
       transition: transform .08s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
     }
     .btn-primary{
       background: linear-gradient(135deg, var(--accent), var(--accent2));
@@ -108,19 +145,24 @@
       color: var(--muted);
     }
     .btn-ghost:hover{ border-color: var(--accent); color: var(--text); }
-    .row{ display:flex; gap:10px; flex-wrap:wrap; }
-    .row > *{ flex:1; min-width: 140px; }
-    .tabs{
-      display:flex; flex-direction:column; gap:10px;
+
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; }
+    .actions.right{ justify-content:flex-end; }
+    .divider{
+      border:none; border-top:1px solid var(--border);
+      margin:14px 0;
     }
+
+    /* Tabs */
+    .tabs{ display:flex; flex-direction:column; gap:10px; }
     .tabbtn{
       width:100%;
       text-align:left;
       background:#020617;
       border:1px solid transparent;
       color:var(--muted);
-      padding:10px 10px;
-      border-radius:12px;
+      padding:11px 12px;
+      border-radius:14px;
       cursor:pointer;
       display:flex; align-items:center; justify-content:space-between;
       transition:.12s ease;
@@ -134,22 +176,21 @@
     }
     .badge{
       font-size:11px;
-      padding:2px 8px;
+      padding:2px 9px;
       border-radius:999px;
       border:1px solid #1e293b;
       color:var(--muted);
     }
-    .content{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
+
+    /* Content right */
+    .content{ display:flex; flex-direction:column; gap:12px; }
     .content-header{
       display:flex; gap:12px; align-items:flex-start; justify-content:space-between;
       flex-wrap:wrap;
     }
-    .content-header h3{ margin:0; font-size:14px; }
+    .content-header h3{ margin:0; font-size:14px; font-weight:900; }
     .content-header .sub{ margin:2px 0 0; font-size:12px; color:var(--muted); }
+
     .split{
       display:grid;
       grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.05fr);
@@ -158,85 +199,119 @@
     @media (max-width: 1000px){
       .split{ grid-template-columns: 1fr; }
     }
+
     .panel{
       border:1px solid var(--border);
-      border-radius:14px;
+      border-radius:16px;
       padding:12px;
-      background: #020617;
-      max-height: 520px;
+      background:#020617;
+      max-height: 560px;
       overflow:auto;
     }
-    .actions{
-      display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
-      margin-bottom:10px;
-    }
+
+    /* PAPER (O QUE VOCÊ QUER: CENTRAL + BORDA + “BTX”) */
     .paper{
-  background:#fff;
-  color:#111827;
-  border-radius:6px;
-  padding:18px;
-  box-shadow: 0 0 0 1px #e5e7eb;
-  max-width: 820px;
-  margin: 0 auto;
+      background:#fff;
+      color:#111827;
+      border-radius:10px;
+      padding:18px;
+      box-shadow: 0 0 0 1px #e5e7eb;
+      max-width: 820px;
+      margin: 0 auto; /* CENTRALIZA A FOLHA */
+      font-size:14px;
     }
-    .doc-header{
-      display:flex; justify-content:space-between; gap:10px; align-items:flex-start;
-      border-bottom:1px solid #e5e7eb;
+    .paper .doc-header{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:flex-start;
+      border-bottom:2px solid #e5e7eb;
       padding-bottom:10px;
       margin-bottom:12px;
     }
-    .doc-header h1{ margin:0; font-size:16px; }
-    .doc-header p{ margin:3px 0 0; font-size:12px; }
-    .doc-meta{ font-size:12px; text-align:right; }
-    .doc-title{ font-weight:700; margin:12px 0 6px; }
-    .doc-line{ margin:3px 0; font-size:13px; }
-    .doc-block{ white-space:pre-wrap; word-break:break-word; margin:6px 0 10px; font-size:13px; }
+    .btxMark{
+      display:flex; align-items:center; gap:10px;
+    }
+    .btxDot{
+      width:12px; height:12px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.18);
+      flex:0 0 auto;
+    }
+    .doc-title{
+      font-weight:900;
+      margin:12px 0 6px;
+    }
+    .doc-line{
+      margin:3px 0;
+      font-size:13px;
+      line-height:1.35;
+    }
+    .doc-block{
+      white-space:pre-wrap;
+      word-break:break-word;
+      margin:6px 0 10px;
+      font-size:13px;
+      line-height:1.45;
+    }
+    .doc-meta{ font-size:12px; text-align:right; color:#374151; }
+    table{ width:100%; border-collapse:collapse; margin-top:8px; }
+    th, td{ border:1px solid #e5e7eb; padding:6px; font-size:13px; text-align:left; }
+    tfoot td{ font-weight:900; }
     .sign{
       margin-top:22px;
       text-align:center;
       font-size:13px;
+      color:#111827;
     }
-    table{ width:100%; border-collapse:collapse; margin-top:8px; }
-    th, td{ border:1px solid #e5e7eb; padding:6px; font-size:13px; text-align:left; }
-    tfoot td{ font-weight:700; }
+    .sign .line{
+      margin:0 auto 6px;
+      width: 80%;
+      border-bottom:1px solid #111827;
+      opacity:.6;
+      height:12px;
+    }
 
+    /* Print */
     @media print{
       @page{ size:A4; margin:12mm; }
       body{ background:#fff; }
-      .topbar, .no-print{ display:none !important; }
+      .no-print{ display:none !important; }
       main{ padding:0; }
       .screen{ border:none; box-shadow:none; padding:0; background:#fff; }
-      .paper{ box-shadow:none; max-width:100%; }
       .panel{ border:none; padding:0; max-height:none; overflow:visible; background:#fff; }
+      .paper{ box-shadow:none; max-width:100%; margin:0; border-radius:0; }
     }
   </style>
 </head>
+
 <body>
   <header class="topbar no-print">
     <div class="brand">
       <div class="logo">B</div>
-      <div>
+      <div class="brandtext">
         <h1>BTX Docs Saúde — Gerador de Documentos</h1>
-        <p>Ficha • Receita • Orçamento • Laudo • Atestado (sem login, rápido e estável)</p>
+        <p>Ficha • Receita • Orçamento • Laudo • Atestado (rápido, estável e sem login)</p>
       </div>
     </div>
-    <div class="rightinfo" id="topInfo">Preencha os dados do profissional (salva automaticamente).</div>
+    <div class="topinfo" id="topInfo">Preencha os dados do profissional (salva automaticamente neste dispositivo).</div>
   </header>
 
   <main>
     <div class="shell">
       <section class="screen">
         <div class="layout">
+
           <!-- LATERAL -->
           <aside class="card no-print">
             <h2>Configuração do Profissional</h2>
-            <p class="small">Esses dados entram automaticamente em todos os documentos. Ficam salvos só neste dispositivo (localStorage).</p>
+            <p class="small">Esses dados entram automaticamente em todos os documentos. Eles ficam salvos somente neste dispositivo (localStorage).</p>
 
             <label for="profNome">Nome completo</label>
             <input id="profNome" placeholder="Ex.: Dr(a). Orlando Abreu Gomes da Silva" />
 
             <label for="profEsp">Especialidade</label>
-            <input id="profEsp" placeholder="Ex.: Cirurgião-dentista / Bucomaxilofacial" />
+            <input id="profEsp" placeholder="Ex.: Clínico geral / Dermatologista / Fonoaudiólogo..." />
 
             <div class="row">
               <div>
@@ -263,15 +338,15 @@
               </div>
             </div>
 
-            <div class="actions" style="justify-content:flex-start; margin-top:12px;">
+            <div class="actions" style="margin-top:12px;">
               <button class="btn btn-ghost" type="button" id="btnLimparProf">Limpar</button>
               <button class="btn btn-primary" type="button" id="btnSalvarProf">Salvar</button>
             </div>
 
-            <hr style="border:none;border-top:1px solid var(--border); margin:14px 0;" />
+            <hr class="divider" />
 
             <h2>Documentos</h2>
-            <div class="tabs">
+            <div class="tabs" id="tabs">
               <button class="tabbtn active" data-tab="ficha">Ficha clínica <span class="badge">Paciente</span></button>
               <button class="tabbtn" data-tab="receita">Receita <span class="badge">Medicação</span></button>
               <button class="tabbtn" data-tab="orcamento">Orçamento <span class="badge">Itens</span></button>
@@ -280,7 +355,7 @@
             </div>
 
             <p class="small" style="margin-top:12px;">
-              Dica: o botão <b>Imprimir / PDF</b> abre o gerador do próprio navegador (funciona em celular e PC).
+              Use <b>Imprimir / PDF</b> pra gerar o PDF pelo próprio navegador (funciona em celular e PC).
             </p>
           </aside>
 
@@ -302,16 +377,24 @@
 
               <!-- PREVIEW -->
               <div class="panel">
-                <div class="actions no-print">
+                <div class="actions right no-print" style="margin-bottom:10px;">
                   <button class="btn btn-ghost" type="button" id="btnLimparForm">Limpar formulário</button>
                   <button class="btn btn-primary" type="button" id="btnPrint">Imprimir / PDF</button>
                 </div>
 
+                <!-- FOLHA CENTRALIZADA + BORDA (AQUI É A “CARA” DO DOCUMENTO) -->
                 <div class="paper" id="paper">
                   <div class="doc-header">
                     <div>
-                      <h1 id="pvTitle">Pré-visualização</h1>
-                      <p id="pvSub">Preencha um formulário para gerar o documento.</p>
+                      <div class="btxMark">
+                        <span class="btxDot"></span>
+                        <div>
+                          <div style="font-weight:900; font-size:13px;">BTX Docs Saúde</div>
+                          <div style="font-size:12px; color:#374151;">Documentos clínicos — impressão profissional</div>
+                        </div>
+                      </div>
+                      <div style="margin-top:8px; font-weight:900; font-size:16px;" id="pvTitle">Pré-visualização</div>
+                      <div style="font-size:12px; color:#374151;" id="pvSub">Preencha um formulário para gerar o documento.</div>
                     </div>
                     <div class="doc-meta" id="pvMeta"></div>
                   </div>
@@ -329,441 +412,466 @@
     </div>
   </main>
 
-<script>
-  const $ = (id) => document.getElementById(id);
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const LS_KEY = "btx_profissional_v2_clean";
 
-  const LS_KEY = "btx_profissional_v1";
+    function todayISO(){
+      const d = new Date();
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth()+1).padStart(2,"0");
+      const dd = String(d.getDate()).padStart(2,"0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
 
-  const TABS = {
-    ficha: {
-      title: "Ficha clínica simplificada",
-      sub: "Identificação do paciente, anamnese e planejamento.",
-      renderForm: () => `
-        <label>Nome do paciente</label>
-        <input id="f_paciente" required />
-        <div class="row">
-          <div>
-            <label>Nascimento</label>
-            <input id="f_nasc" type="date" />
-          </div>
-          <div>
-            <label>Telefone</label>
-            <input id="f_tel" />
-          </div>
-        </div>
-        <label>Endereço</label>
-        <input id="f_end" />
-        <label>Motivo da consulta</label>
-        <textarea id="f_motivo"></textarea>
-        <label>Anamnese</label>
-        <textarea id="f_anamnese"></textarea>
-        <label>Planejamento</label>
-        <textarea id="f_plan"></textarea>
-        <label>Procedimentos realizados hoje</label>
-        <textarea id="f_proc"></textarea>
-      `,
-      build: () => {
-        const paciente = v("f_paciente");
-        return [
-          line("Paciente", paciente),
-          line("Nascimento", v("f_nasc")),
-          line("Telefone", v("f_tel")),
-          line("Endereço", v("f_end")),
-          block("Motivo da consulta", v("f_motivo")),
-          block("Anamnese", v("f_anamnese")),
-          block("Planejamento", v("f_plan")),
-          block("Procedimentos realizados hoje", v("f_proc")),
-        ].join("");
-      }
-    },
+    function esc(str){
+      return String(str ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
 
-    receita: {
-      title: "Receita",
-      sub: "Prescrição com posologia + data/cidade.",
-      renderForm: () => `
-        <label>Nome do paciente</label>
-        <input id="r_paciente" required />
-        <label>Modelo (opcional)</label>
-        <select id="r_modelo">
-          <option value="">Selecione…</option>
-          <option value="paracetamol">Paracetamol</option>
-          <option value="dipirona">Dipirona</option>
-          <option value="diclofenaco">Diclofenaco de potássio</option>
-          <option value="ibuprofeno">Ibuprofeno</option>
-          <option value="amoxicilina">Amoxicilina</option>
-          <option value="amoxclav">Amoxicilina + Clavulanato</option>
-          <option value="azitromicina">Azitromicina</option>
-        </select>
-        <p class="small">Ao escolher um modelo, ele entra no corpo e você pode editar.</p>
-        <label>Corpo da prescrição</label>
-        <textarea id="r_corpo" placeholder="Ex.: Amoxicilina 500mg..."></textarea>
-        <div class="row">
-          <div>
-            <label>Cidade</label>
-            <input id="r_cidade" />
-          </div>
-          <div>
-            <label>Data</label>
-            <input id="r_data" type="date" />
-          </div>
-        </div>
-      `,
-      build: () => {
-        const paciente = v("r_paciente");
-        const cidade = v("r_cidade");
-        const data = v("r_data") || todayISO();
-        return [
-          line("Paciente", paciente),
-          `<div class="doc-title">Prescrição</div>`,
-          `<div class="doc-block">${esc(v("r_corpo"))}</div>`,
-          `<p class="doc-line"><strong>${esc(cidade || "Cidade")}</strong>, ${esc(data)}</p>`
-        ].join("");
-      }
-    },
+    function v(id){
+      const el = $(id);
+      return el ? el.value.trim() : "";
+    }
 
-    orcamento: {
-      title: "Orçamento",
-      sub: "Procedimentos e valores, pronto para impressão.",
-      renderForm: () => {
-        let rows = "";
-        for (let i=1;i<=10;i++){
-          rows += `
-            <div class="row">
-              <div>
-                <label>Procedimento ${i}</label>
-                <input id="o_d${i}" />
-              </div>
-              <div>
-                <label>Valor ${i} (R$)</label>
-                <input id="o_v${i}" type="number" step="0.01" />
-              </div>
-            </div>
-          `;
-        }
-        return `
+    function line(label, value){
+      if (!value) return "";
+      return `<p class="doc-line"><strong>${esc(label)}:</strong> ${esc(value)}</p>`;
+    }
+
+    function block(title, value){
+      if (!value) return "";
+      return `<div><div class="doc-title">${esc(title)}</div><div class="doc-block">${esc(value)}</div></div>`;
+    }
+
+    function loadProf(){
+      try{
+        const raw = localStorage.getItem(LS_KEY);
+        return raw ? JSON.parse(raw) : null;
+      }catch(e){ return null; }
+    }
+
+    function saveProf(data){
+      localStorage.setItem(LS_KEY, JSON.stringify(data));
+    }
+
+    function readProfFromUI(){
+      return {
+        nome: $("profNome").value.trim(),
+        esp: $("profEsp").value.trim(),
+        conselho: $("profConselho").value.trim(),
+        reg: $("profReg").value.trim(),
+        end: $("profEnd").value.trim(),
+        tel: $("profTel").value.trim(),
+        email: $("profEmail").value.trim(),
+      };
+    }
+
+    function setProfToUI(p){
+      $("profNome").value = p?.nome || "";
+      $("profEsp").value = p?.esp || "";
+      $("profConselho").value = p?.conselho || "";
+      $("profReg").value = p?.reg || "";
+      $("profEnd").value = p?.end || "";
+      $("profTel").value = p?.tel || "";
+      $("profEmail").value = p?.email || "";
+    }
+
+    function profLines(p){
+      const cr = (p?.conselho || p?.reg) ? `${p.conselho || ""} ${p.reg || ""}`.trim() : "";
+      return [p?.nome, p?.esp, cr, p?.end, p?.tel, p?.email].filter(Boolean);
+    }
+
+    const TABS = {
+      ficha: {
+        title: "Ficha clínica simplificada",
+        sub: "Identificação do paciente, anamnese e planejamento.",
+        renderForm: () => `
           <label>Nome do paciente</label>
-          <input id="o_paciente" required />
-          <label>Observações</label>
-          <textarea id="o_obs"></textarea>
-          <div style="margin:10px 0 6px;" class="small">Até 10 itens:</div>
-          ${rows}
+          <input id="f_paciente" required />
+          <div class="row">
+            <div>
+              <label>Nascimento</label>
+              <input id="f_nasc" type="date" />
+            </div>
+            <div>
+              <label>Telefone</label>
+              <input id="f_tel" />
+            </div>
+          </div>
+          <label>Endereço</label>
+          <input id="f_end" />
+          <label>Motivo da consulta</label>
+          <textarea id="f_motivo"></textarea>
+          <label>Anamnese</label>
+          <textarea id="f_anamnese"></textarea>
+          <label>Planejamento</label>
+          <textarea id="f_plan"></textarea>
+          <label>Procedimentos realizados hoje</label>
+          <textarea id="f_proc"></textarea>
+        `,
+        build: () => {
+          const paciente = v("f_paciente");
+          return [
+            line("Paciente", paciente),
+            line("Nascimento", v("f_nasc")),
+            line("Telefone", v("f_tel")),
+            line("Endereço", v("f_end")),
+            block("Motivo da consulta", v("f_motivo")),
+            block("Anamnese", v("f_anamnese")),
+            block("Planejamento", v("f_plan")),
+            block("Procedimentos realizados hoje", v("f_proc")),
+          ].join("");
+        }
+      },
+
+      receita: {
+        title: "Receita",
+        sub: "Prescrição com posologia + cidade e data.",
+        renderForm: () => `
+          <label>Nome do paciente</label>
+          <input id="r_paciente" required />
+
+          <label>Modelo (opcional)</label>
+          <select id="r_modelo">
+            <option value="">Selecione…</option>
+            <option value="paracetamol">Paracetamol</option>
+            <option value="dipirona">Dipirona</option>
+            <option value="diclofenaco">Diclofenaco de potássio</option>
+            <option value="ibuprofeno">Ibuprofeno</option>
+            <option value="amoxicilina">Amoxicilina</option>
+            <option value="amoxclav">Amoxicilina + Clavulanato</option>
+            <option value="azitromicina">Azitromicina</option>
+          </select>
+
+          <p class="small">Ao escolher um modelo, ele entra no corpo e você pode editar.</p>
+
+          <label>Corpo da prescrição</label>
+          <textarea id="r_corpo" placeholder="Ex.: Amoxicilina 500mg..."></textarea>
+
           <div class="row">
             <div>
               <label>Cidade</label>
-              <input id="o_cidade" />
+              <input id="r_cidade" />
             </div>
             <div>
               <label>Data</label>
-              <input id="o_data" type="date" />
+              <input id="r_data" type="date" />
             </div>
           </div>
-        `;
+        `,
+        build: () => {
+          const paciente = v("r_paciente");
+          const cidade = v("r_cidade") || "Cidade";
+          const data = v("r_data") || todayISO();
+          const corpo = v("r_corpo");
+
+          return [
+            line("Paciente", paciente),
+            `<div class="doc-title">Prescrição</div>`,
+            corpo ? `<div class="doc-block">${esc(corpo)}</div>` : `<p class="doc-line">—</p>`,
+            `<p class="doc-line"><strong>${esc(cidade)}</strong>, ${esc(data)}</p>`
+          ].join("");
+        }
       },
-      build: () => {
-        const paciente = v("o_paciente");
-        const cidade = v("o_cidade");
-        const data = v("o_data") || todayISO();
 
-        const itens = [];
-        for (let i=1;i<=10;i++){
-          const d = v(`o_d${i}`);
-          const rawV = v(`o_v${i}`);
-          if (d || rawV){
-            itens.push({ desc: d || "", valor: rawV ? Number(rawV) : 0 });
+      orcamento: {
+        title: "Orçamento",
+        sub: "Procedimentos e valores, pronto para impressão.",
+        renderForm: () => {
+          let rows = "";
+          for (let i=1;i<=10;i++){
+            rows += `
+              <div class="row">
+                <div>
+                  <label>Procedimento ${i}</label>
+                  <input id="o_d${i}" />
+                </div>
+                <div>
+                  <label>Valor ${i} (R$)</label>
+                  <input id="o_v${i}" type="number" step="0.01" />
+                </div>
+              </div>
+            `;
           }
-        }
+          return `
+            <label>Nome do paciente</label>
+            <input id="o_paciente" required />
 
-        let table = "";
-        if (itens.length){
-          const total = itens.reduce((a,b)=>a+(b.valor||0),0);
-          table = `
-            <table>
-              <thead><tr><th>Procedimento</th><th>Valor (R$)</th></tr></thead>
-              <tbody>
-                ${itens.map(it => `<tr><td>${esc(it.desc)}</td><td>${(it.valor||0).toFixed(2)}</td></tr>`).join("")}
-              </tbody>
-              <tfoot><tr><td>Total</td><td>${total.toFixed(2)}</td></tr></tfoot>
-            </table>
+            <label>Observações</label>
+            <textarea id="o_obs"></textarea>
+
+            <div class="small" style="margin:10px 0 6px;">Até 10 itens:</div>
+            ${rows}
+
+            <div class="row">
+              <div>
+                <label>Cidade</label>
+                <input id="o_cidade" />
+              </div>
+              <div>
+                <label>Data</label>
+                <input id="o_data" type="date" />
+              </div>
+            </div>
           `;
-        } else {
-          table = `<p class="doc-line">Nenhum procedimento informado.</p>`;
+        },
+        build: () => {
+          const paciente = v("o_paciente");
+          const cidade = v("o_cidade") || "Cidade";
+          const data = v("o_data") || todayISO();
+
+          const itens = [];
+          for (let i=1;i<=10;i++){
+            const d = v(`o_d${i}`);
+            const rawV = v(`o_v${i}`);
+            if (d || rawV){
+              itens.push({ desc: d || "", valor: rawV ? Number(rawV) : 0 });
+            }
+          }
+
+          let table = "";
+          if (itens.length){
+            const total = itens.reduce((a,b)=>a+(b.valor||0),0);
+            table = `
+              <table>
+                <thead><tr><th>Procedimento</th><th>Valor (R$)</th></tr></thead>
+                <tbody>
+                  ${itens.map(it => `<tr><td>${esc(it.desc)}</td><td>${(it.valor||0).toFixed(2)}</td></tr>`).join("")}
+                </tbody>
+                <tfoot><tr><td>Total</td><td>${total.toFixed(2)}</td></tr></tfoot>
+              </table>
+            `;
+          } else {
+            table = `<p class="doc-line">Nenhum procedimento informado.</p>`;
+          }
+
+          return [
+            line("Paciente", paciente),
+            table,
+            block("Observações", v("o_obs")),
+            `<p class="doc-line"><strong>${esc(cidade)}</strong>, ${esc(data)}</p>`
+          ].join("");
         }
+      },
 
-        return [
-          line("Paciente", paciente),
-          table,
-          block("Observações", v("o_obs")),
-          `<p class="doc-line"><strong>${esc(cidade || "Cidade")}</strong>, ${esc(data)}</p>`
-        ].join("");
+      laudo: {
+        title: "Laudo",
+        sub: "Relatório estruturado com conclusão.",
+        renderForm: () => `
+          <label>Nome do paciente</label>
+          <input id="l_paciente" required />
+
+          <label>Título</label>
+          <input id="l_titulo" placeholder="Ex.: Laudo clínico / radiográfico..." />
+
+          <label>Descrição detalhada</label>
+          <textarea id="l_desc"></textarea>
+
+          <label>Conclusão / Impressão diagnóstica</label>
+          <textarea id="l_conc"></textarea>
+
+          <div class="row">
+            <div>
+              <label>Cidade</label>
+              <input id="l_cidade" />
+            </div>
+            <div>
+              <label>Data</label>
+              <input id="l_data" type="date" />
+            </div>
+          </div>
+        `,
+        build: () => {
+          const paciente = v("l_paciente");
+          const cidade = v("l_cidade") || "Cidade";
+          const data = v("l_data") || todayISO();
+          return [
+            line("Paciente", paciente),
+            line("Título", v("l_titulo")),
+            block("Descrição detalhada", v("l_desc")),
+            block("Conclusão / Impressão diagnóstica", v("l_conc")),
+            `<p class="doc-line"><strong>${esc(cidade)}</strong>, ${esc(data)}</p>`
+          ].join("");
+        }
+      },
+
+      atestado: {
+        title: "Atestado",
+        sub: "Justificativa e dias de afastamento (opcional).",
+        renderForm: () => `
+          <label>Nome do paciente</label>
+          <input id="a_paciente" required />
+
+          <label>Dias de afastamento (opcional)</label>
+          <input id="a_dias" type="number" min="0" step="1" placeholder="Ex.: 2" />
+
+          <label>Descrição / Justificativa</label>
+          <textarea id="a_desc" placeholder="Ex.: Necessita afastamento de suas atividades por motivo de saúde."></textarea>
+
+          <div class="row">
+            <div>
+              <label>Cidade</label>
+              <input id="a_cidade" />
+            </div>
+            <div>
+              <label>Data</label>
+              <input id="a_data" type="date" />
+            </div>
+          </div>
+        `,
+        build: () => {
+          const paciente = v("a_paciente");
+          const cidade = v("a_cidade") || "Cidade";
+          const data = v("a_data") || todayISO();
+          const diasRaw = v("a_dias");
+          const dias = diasRaw ? Number(diasRaw) : null;
+
+          return [
+            line("Paciente", paciente),
+            (dias && !Number.isNaN(dias) && dias > 0)
+              ? `<p class="doc-line"><strong>Afastamento:</strong> ${dias} dia(s).</p>`
+              : "",
+            block("Declaração", v("a_desc")),
+            `<p class="doc-line"><strong>${esc(cidade)}</strong>, ${esc(data)}</p>`
+          ].join("");
+        }
       }
-    },
-
-    laudo: {
-      title: "Laudo",
-      sub: "Relatório estruturado com conclusão.",
-      renderForm: () => `
-        <label>Nome do paciente</label>
-        <input id="l_paciente" required />
-        <label>Título</label>
-        <input id="l_titulo" placeholder="Ex.: Laudo clínico / radiográfico..." />
-        <label>Descrição detalhada</label>
-        <textarea id="l_desc"></textarea>
-        <label>Conclusão / Impressão diagnóstica</label>
-        <textarea id="l_conc"></textarea>
-        <div class="row">
-          <div>
-            <label>Cidade</label>
-            <input id="l_cidade" />
-          </div>
-          <div>
-            <label>Data</label>
-            <input id="l_data" type="date" />
-          </div>
-        </div>
-      `,
-      build: () => {
-        const paciente = v("l_paciente");
-        const cidade = v("l_cidade");
-        const data = v("l_data") || todayISO();
-        return [
-          line("Paciente", paciente),
-          line("Título", v("l_titulo")),
-          block("Descrição detalhada", v("l_desc")),
-          block("Conclusão / Impressão diagnóstica", v("l_conc")),
-          `<p class="doc-line"><strong>${esc(cidade || "Cidade")}</strong>, ${esc(data)}</p>`
-        ].join("");
-      }
-    },
-
-    atestado: {
-      title: "Atestado",
-      sub: "Justificativa e dias de afastamento (opcional).",
-      renderForm: () => `
-        <label>Nome do paciente</label>
-        <input id="a_paciente" required />
-        <label>Dias de afastamento (opcional)</label>
-        <input id="a_dias" type="number" min="0" step="1" placeholder="Ex.: 2" />
-        <label>Descrição / Justificativa</label>
-        <textarea id="a_desc" placeholder="Ex.: Necessita afastamento de suas atividades por motivo de saúde."></textarea>
-        <div class="row">
-          <div>
-            <label>Cidade</label>
-            <input id="a_cidade" />
-          </div>
-          <div>
-            <label>Data</label>
-            <input id="a_data" type="date" />
-          </div>
-        </div>
-      `,
-      build: () => {
-        const paciente = v("a_paciente");
-        const cidade = v("a_cidade");
-        const data = v("a_data") || todayISO();
-        const diasRaw = v("a_dias");
-        const dias = diasRaw ? Number(diasRaw) : null;
-
-        return [
-          line("Paciente", paciente),
-          (dias && !Number.isNaN(dias) && dias > 0) ? `<p class="doc-line"><strong>Afastamento:</strong> ${dias} dia(s).</p>` : "",
-          block("Declaração", v("a_desc")),
-          `<p class="doc-line"><strong>${esc(cidade || "Cidade")}</strong>, ${esc(data)}</p>`
-        ].join("");
-      }
-    }
-  };
-
-  let currentTab = "ficha";
-
-  function todayISO(){
-    const d = new Date();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth()+1).padStart(2,"0");
-    const dd = String(d.getDate()).padStart(2,"0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
-
-  function esc(str){
-    return String(str ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#39;");
-  }
-
-  function v(id){
-    const el = $(id);
-    return el ? el.value.trim() : "";
-  }
-
-  function line(label, value){
-    if (!value) return "";
-    return `<p class="doc-line"><strong>${esc(label)}:</strong> ${esc(value)}</p>`;
-  }
-
-  function block(title, value){
-    if (!value) return "";
-    return `<div><div class="doc-title">${esc(title)}</div><div class="doc-block">${esc(value)}</div></div>`;
-  }
-
-  function loadProf(){
-    try{
-      const raw = localStorage.getItem(LS_KEY);
-      return raw ? JSON.parse(raw) : null;
-    }catch(e){ return null; }
-  }
-
-  function saveProf(data){
-    localStorage.setItem(LS_KEY, JSON.stringify(data));
-  }
-
-  function readProfFromUI(){
-    return {
-      nome: $("profNome").value.trim(),
-      esp: $("profEsp").value.trim(),
-      conselho: $("profConselho").value.trim(),
-      reg: $("profReg").value.trim(),
-      end: $("profEnd").value.trim(),
-      tel: $("profTel").value.trim(),
-      email: $("profEmail").value.trim(),
     };
-  }
 
-  function setProfToUI(p){
-    $("profNome").value = p?.nome || "";
-    $("profEsp").value = p?.esp || "";
-    $("profConselho").value = p?.conselho || "";
-    $("profReg").value = p?.reg || "";
-    $("profEnd").value = p?.end || "";
-    $("profTel").value = p?.tel || "";
-    $("profEmail").value = p?.email || "";
-  }
+    let currentTab = "ficha";
 
-  function profLines(p){
-    const cr = (p?.conselho || p?.reg) ? `${p.conselho || ""} ${p.reg || ""}`.trim() : "";
-    return [p?.nome, p?.esp, cr, p?.end, p?.tel, p?.email].filter(Boolean);
-  }
-
-  function ensureDefaultDates(){
-    const map = { receita:"r_data", orcamento:"o_data", laudo:"l_data", atestado:"a_data" };
-    Object.values(map).forEach(id => {
-      const el = $(id);
-      if (el && !el.value) el.value = todayISO();
-    });
-  }
-
-  function renderTab(tab){
-    currentTab = tab;
-
-    // update active
-    document.querySelectorAll(".tabbtn").forEach(b=>{
-      b.classList.toggle("active", b.dataset.tab === tab);
-    });
-
-    // header
-    $("docTitle").textContent = TABS[tab].title;
-    $("docSub").textContent = TABS[tab].sub;
-
-    // form
-    $("formPanel").innerHTML = TABS[tab].renderForm();
-
-    // hook changes to auto-preview
-    $("formPanel").querySelectorAll("input,textarea,select").forEach(el=>{
-      el.addEventListener("input", buildPreview);
-      el.addEventListener("change", buildPreview);
-    });
-
-    // recipe model
-    const modelo = $("r_modelo");
-    if (modelo){
-      modelo.addEventListener("change", ()=>{
-        const v = modelo.value;
-        const modelos = {
-          paracetamol: "Paracetamol 750mg\nTomar 01 comprimido a cada 8 horas, se dor ou febre, por até 3 dias.",
-          dipirona: "Dipirona 500mg\nTomar 01 comprimido a cada 6–8 horas, se dor ou febre, por até 3 dias.",
-          diclofenaco: "Diclofenaco de potássio 50mg\nTomar 01 comprimido a cada 8–12 horas, após alimentação, por 3 dias.",
-          ibuprofeno: "Ibuprofeno 400mg\nTomar 01 comprimido a cada 8 horas, após alimentação, por 3 dias.",
-          amoxicilina: "Amoxicilina 500mg\nTomar 01 cápsula a cada 8 horas por 7 dias.",
-          amoxclav: "Amoxicilina 875mg + Clavulanato 125mg\nTomar 01 comprimido a cada 12 horas por 7 dias.",
-          azitromicina: "Azitromicina 500mg\nTomar 01 comprimido ao dia por 3 dias."
-        };
-        if (!v) return;
-        const corpo = $("r_corpo");
-        const atual = corpo.value.trim();
-        corpo.value = atual ? (atual + "\n\n" + modelos[v]) : modelos[v];
-        buildPreview();
+    function ensureDefaultDates(){
+      const ids = ["r_data","o_data","l_data","a_data"];
+      ids.forEach(id=>{
+        const el = $(id);
+        if (el && !el.value) el.value = todayISO();
       });
     }
 
-    ensureDefaultDates();
-    buildPreview();
-  }
+    function renderTab(tab){
+      currentTab = tab;
 
-  function buildPreview(){
-    const now = new Date();
-    $("pvMeta").textContent = `${now.toLocaleDateString("pt-BR")} • ${now.toLocaleTimeString("pt-BR").slice(0,5)}`;
-    $("pvTitle").textContent = TABS[currentTab].title;
-    $("pvSub").textContent = TABS[currentTab].sub;
+      // botão ativo
+      document.querySelectorAll(".tabbtn").forEach(b=>{
+        b.classList.toggle("active", b.dataset.tab === tab);
+      });
 
-    const prof = loadProf();
-    const lines = profLines(prof);
-    $("profResumo").textContent = (lines.length ? `${lines[0]}${lines[1] ? " — " + lines[1] : ""}` : "—");
-    $("topInfo").textContent = lines.length ? `Profissional salvo: ${lines[0]}` : "Preencha os dados do profissional (salva automaticamente).";
+      // cabeçalhos
+      $("docTitle").textContent = TABS[tab].title;
+      $("docSub").textContent  = TABS[tab].sub;
 
-    $("pvBody").innerHTML = TABS[currentTab].build();
+      // formulário
+      $("formPanel").innerHTML = TABS[tab].renderForm();
 
-    // assinatura
-    if (lines.length){
-      $("pvSign").innerHTML = `
-        <div style="margin-top:1.6rem;">__________________________________________</div>
-        <div>${lines.map(esc).join("<br/>")}</div>
-      `;
-    } else {
-      $("pvSign").innerHTML = `<div class="small" style="color:#374151;">(Preencha os dados do profissional para aparecer assinatura.)</div>`;
+      // listeners preview
+      $("formPanel").querySelectorAll("input,textarea,select").forEach(el=>{
+        el.addEventListener("input", buildPreview);
+        el.addEventListener("change", buildPreview);
+      });
+
+      // modelo receita
+      const modelo = $("r_modelo");
+      if (modelo){
+        modelo.addEventListener("change", ()=>{
+          const val = modelo.value;
+          if (!val) return;
+
+          const modelos = {
+            paracetamol: "Paracetamol 750mg\nTomar 01 comprimido a cada 8 horas, se dor ou febre, por até 3 dias.",
+            dipirona: "Dipirona 500mg\nTomar 01 comprimido a cada 6–8 horas, se dor ou febre, por até 3 dias.",
+            diclofenaco: "Diclofenaco de potássio 50mg\nTomar 01 comprimido a cada 8–12 horas, após alimentação, por 3 dias.",
+            ibuprofeno: "Ibuprofeno 400mg\nTomar 01 comprimido a cada 8 horas, após alimentação, por 3 dias.",
+            amoxicilina: "Amoxicilina 500mg\nTomar 01 cápsula a cada 8 horas por 7 dias.",
+            amoxclav: "Amoxicilina 875mg + Clavulanato 125mg\nTomar 01 comprimido a cada 12 horas por 7 dias.",
+            azitromicina: "Azitromicina 500mg\nTomar 01 comprimido ao dia por 3 dias."
+          };
+
+          const corpo = $("r_corpo");
+          const atual = corpo.value.trim();
+          corpo.value = atual ? (atual + "\n\n" + modelos[val]) : modelos[val];
+          buildPreview();
+        });
+      }
+
+      ensureDefaultDates();
+      buildPreview();
     }
-  }
 
-  // Buttons
-  $("btnSalvarProf").addEventListener("click", ()=>{
-    const p = readProfFromUI();
-    if (!p.nome){
-      alert("Digite pelo menos o nome do profissional para salvar.");
-      return;
+    function buildPreview(){
+      const now = new Date();
+      $("pvMeta").textContent = `${now.toLocaleDateString("pt-BR")} • ${now.toLocaleTimeString("pt-BR").slice(0,5)}`;
+
+      $("pvTitle").textContent = TABS[currentTab].title;
+      $("pvSub").textContent   = TABS[currentTab].sub;
+
+      const prof = loadProf();
+      const lines = profLines(prof);
+
+      $("profResumo").textContent =
+        (lines.length ? `${lines[0]}${lines[1] ? " — " + lines[1] : ""}` : "—");
+
+      $("topInfo").textContent =
+        (lines.length ? `Profissional salvo: ${lines[0]}` : "Preencha os dados do profissional (salva automaticamente neste dispositivo).");
+
+      // corpo do documento
+      $("pvBody").innerHTML = TABS[currentTab].build() || `<p class="doc-line">Preencha o formulário.</p>`;
+
+      // assinatura
+      if (lines.length){
+        $("pvSign").innerHTML = `
+          <div class="line"></div>
+          <div>${lines.map(esc).join("<br/>")}</div>
+        `;
+      } else {
+        $("pvSign").innerHTML = `<div style="color:#6b7280;font-size:12px;">(Preencha os dados do profissional para aparecer assinatura.)</div>`;
+      }
     }
-    saveProf(p);
-    buildPreview();
-  });
 
-  $("btnLimparProf").addEventListener("click", ()=>{
-    localStorage.removeItem(LS_KEY);
-    setProfToUI(null);
-    buildPreview();
-  });
-
-  $("btnLimparForm").addEventListener("click", ()=>{
-    $("formPanel").querySelectorAll("input,textarea,select").forEach(el=>{
-      if (el.tagName.toLowerCase()==="select") el.value="";
-      else el.value="";
+    // Botões profissional
+    $("btnSalvarProf").addEventListener("click", ()=>{
+      const p = readProfFromUI();
+      if (!p.nome){
+        alert("Digite pelo menos o nome do profissional para salvar.");
+        return;
+      }
+      saveProf(p);
+      buildPreview();
     });
-    ensureDefaultDates();
-    buildPreview();
-  });
 
-  $("btnPrint").addEventListener("click", ()=>{
-    buildPreview();
-    window.print();
-  });
+    $("btnLimparProf").addEventListener("click", ()=>{
+      localStorage.removeItem(LS_KEY);
+      setProfToUI(null);
+      buildPreview();
+    });
 
-  // init
-  document.querySelectorAll(".tabbtn").forEach(btn=>{
-    btn.addEventListener("click", ()=>renderTab(btn.dataset.tab));
-  });
+    // Botões formulário
+    $("btnLimparForm").addEventListener("click", ()=>{
+      $("formPanel").querySelectorAll("input,textarea,select").forEach(el=>{
+        if (el.tagName.toLowerCase()==="select") el.value="";
+        else el.value="";
+      });
+      ensureDefaultDates();
+      buildPreview();
+    });
 
-  // load saved prof
-  setProfToUI(loadProf());
-  renderTab("ficha");
-</script>
+    $("btnPrint").addEventListener("click", ()=>{
+      buildPreview();
+      window.print();
+    });
 
+    // Tabs
+    document.querySelectorAll(".tabbtn").forEach(btn=>{
+      btn.addEventListener("click", ()=>renderTab(btn.dataset.tab));
+    });
+
+    // Init
+    setProfToUI(loadProf());
+    renderTab("ficha");
+  </script>
 </body>
 </html>
